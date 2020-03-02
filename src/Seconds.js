@@ -1,23 +1,21 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 
-class Seconds extends Component {
-
-    state = { seconds: 0 };
-
-    componentDidMount() {
-        this.intervalId = setInterval(() => {
-            this.setState(state => ({ seconds: state.seconds + 1 }));
-            }, 1000)  
-    }
+const Seconds = () => {
     
-    componentWillMount() {
-        clearInterval(this.intervalId);
-    }
+    const [ seconds, setSeconds ] = useState(0);
+    //useEffect: componentDidMount / componentDidUpdate / componentWillUnmount
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setSeconds(seconds => seconds + 1);
+            }, 1000);
+        
+            return () => {
+                clearInterval(intervalId);
+            }
+    }, [seconds]);
+    
+    return seconds;
 
-    render() {
-        const { seconds } = this.state;
-        return seconds;
-    }
 }
 
 export default Seconds;
